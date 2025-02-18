@@ -6,12 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Role } from 'src/role/role';
 import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthGuard } from 'auth/AuthGuard';
 
 @Controller('users')
 export class UsersController {
@@ -33,6 +35,7 @@ export class UsersController {
   }
 
   @Get('role/:role')
+  @UseGuards(AuthGuard)
   getByRole(@Param('role') role: Role) {
     return this.usersService.getByRole(role);
   }

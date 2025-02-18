@@ -16,9 +16,10 @@ GET http://localhost:3000/users
 
 ###
 GET http://localhost:3000/users/role/admin
+Authorization: Bearer eyJhbkciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBlZHJvLmdvbWV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzM5OTA2MjMzLCJleHAiOjE3Mzk5MDk4MzN9.WHSWO_YqjsjQF94TTsHkh78YNyhp8SR5NhXd4pV1GWQ
+
 
 ###
-
 DELETE  http://localhost:3000/users/9ae80306-230f-4bff-82d9-9da1866242dc
 
 ###
@@ -35,6 +36,6 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-  "email":"carlos.niieddu@example.com",
+  "email":"pedro.gomez@example.com",
   "password":"StrongP@ssw0rd!"
 }

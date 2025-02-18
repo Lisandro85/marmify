@@ -1,28 +1,31 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/users/entities/user.entity';
-import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { LoginDto } from './dto/loginDto';
 import { UserRepository } from 'src/users/users.repository';
+import { JwtService } from '@nestjs/jwt';
+import { jwtConstants } from './constant';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userRespository: UserRepository) {}
+  constructor(
+    private readonly userRespository: UserRepository,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async login(email: string, password: string) {
-    const validEmail = await this.userRespository.getUserByemail(email);
+    const user = await this.userRespository.getUserByemail(email);
 
-    if (!validEmail) {
+    if (!user) {
       throw new UnauthorizedException('Bad credentials');
     }
 
-    const validPsw = await bcrypt.compare(password, validEmail.password);
+    const validPsw = await bcrypt.compare(password, user.password);
 
     if (!validPsw) {
       throw new UnauthorizedException('Bad credentials');
     }
+    const payload = { email: user.email };
+    const access_token = await this.jwtService.signAsync(payload);
 
-    return { message: `Utente ${validEmail.name} login with susses` };
+    return { message: `Utente ${user.name} login with susses`, access_token };
   }
 }
