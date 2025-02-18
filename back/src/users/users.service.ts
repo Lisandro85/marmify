@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRepository } from './users.repository';
+import { Role } from 'src/role/role';
 
 @Injectable()
 export class UsersService {
@@ -10,5 +11,8 @@ export class UsersService {
   }
   getUser() {
     return this.userRepository.getUser();
+  }
+  getByRole(role: Role) {
+    return this.userRepository.getByRole(role);
   }
 }

@@ -4,6 +4,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
+import { Role } from 'src/role/role';
 
 @Injectable()
 export class UserRepository {
@@ -31,7 +32,7 @@ export class UserRepository {
     return { message: 'Utente creato con essito', userNopsw };
   }
 
-  async getUser(): Promise<{ message: string; users: User[] }> {
+  async getUser(): Promise<{ message: string; users: Partial<User>[] }> {
     const users = await this.userRepository.find({
       select: ['id', 'name', 'lastname', 'isActive', 'role'],
     });
@@ -39,5 +40,19 @@ export class UserRepository {
       throw new BadRequestException('Non esistono Utenti');
     }
     return { message: 'Lista di Utenti:', users };
+  }
+
+  async getByRole(role: Role) {
+    const user = await this.userRepository.find({
+      where: { role: role },
+      select: ['name', 'lastname', 'isActive', 'role'],
+    });
+    if (!user) {
+      throw new BadRequestException(
+        `Non essistono Utienti con i roll ${role} `,
+      );
+    }
+
+    return { message: `Utenti con i role ${role}`, user };
   }
 }

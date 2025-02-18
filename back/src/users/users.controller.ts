@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { Role } from 'src/role/role';
 
 @Controller('users')
 export class UsersController {
@@ -22,5 +23,10 @@ export class UsersController {
   @Get()
   getUser() {
     return this.usersService.getUser();
+  }
+
+  @Get('role/:role')
+  getByRole(@Param('role') role: Role) {
+    return this.usersService.getByRole(role);
   }
 }
