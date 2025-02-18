@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Role } from 'src/role/role';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -54,5 +55,37 @@ export class UserRepository {
     }
 
     return { message: `Utenti con i role ${role}`, user };
+  }
+
+  async deletUser(id: User['id']) {
+    const user = await this.userRepository.findOneBy({ id: id });
+
+    if (!user) {
+      throw new BadRequestException('Utenti non tovato');
+    }
+    await this.userRepository.delete(user);
+    return { message: `Utente ${user.name} cancellato con essito` };
+  }
+
+  async upateUser(
+    id: User['id'],
+    user: UpdateUserDto,
+  ): Promise<{ message: string; userUpdate: Partial<User> }> {
+    const userExist = await this.userRepository.findOne({ where: { id: id } });
+    if (!userExist) {
+      throw new BadRequestException('Utente non trovato');
+    }
+    await this.userRepository.update(id, user);
+
+    const userUpdate = await this.userRepository.findOne({
+      where: { id: id },
+      select: ['id', 'name', 'lastname', 'email', 'isActive', 'role'],
+    });
+    if (!userUpdate) {
+      throw new BadRequestException(
+        "Errore durante l'aggiornamento dell'utente",
+      );
+    }
+    return { message: 'Utente agiornato corretamente', userUpdate };
   }
 }

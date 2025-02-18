@@ -10,6 +10,8 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Role } from 'src/role/role';
+import { User } from './entities/user.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -25,8 +27,18 @@ export class UsersController {
     return this.usersService.getUser();
   }
 
+  @Delete('/:id')
+  deletUser(@Param('id') id: User['id']) {
+    return this.usersService.deletUser(id);
+  }
+
   @Get('role/:role')
   getByRole(@Param('role') role: Role) {
     return this.usersService.getByRole(role);
+  }
+
+  @Patch('/:id')
+  upateUser(@Param('id') id: User['id'], @Body() user: UpdateUserDto) {
+    return this.usersService.upateUser(id, user);
   }
 }

@@ -2,14 +2,31 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "Gabriel",
-  "lastname": "Dessena",
-  "email": "gabriel.dessena@example.com",
-  "birthdate": "08-07-1993",
+  "name": "Carlos",
+  "lastname": "Niieddu",
+  "email": "carlos.niieddu@example.com",
+  "birthdate": "10-09-1998",
   "password": "StrongP@ssw0rd!", 
   "isActive": true,
-  "role": "admin"  
+  "role": "user"  
 }
 
 ###
 GET http://localhost:3000/users
+
+###
+GET http://localhost:3000/users/role/admin
+
+###
+
+DELETE  http://localhost:3000/users/9ae80306-230f-4bff-82d9-9da1866242dc
+
+###
+
+PATCH http://localhost:3000/users/a6ef4d70-4e1d-4e77-80b8-f32327c54d91
+Content-Type: application/json
+
+{
+  "isActive":false,
+  "role":"user"
+}
