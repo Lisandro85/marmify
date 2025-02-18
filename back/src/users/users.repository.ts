@@ -6,6 +6,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { Role } from 'src/role/role';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { LoginDto } from 'auth/dto/loginDto';
 
 @Injectable()
 export class UserRepository {
@@ -87,5 +88,8 @@ export class UserRepository {
       );
     }
     return { message: 'Utente agiornato corretamente', userUpdate };
+  }
+  async getUserByemail(email: string) {
+    return this.userRepository.findOneBy({ email });
   }
 }
