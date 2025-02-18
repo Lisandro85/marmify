@@ -8,4 +8,7 @@ export class UsersService {
   createUser(createUserDto: CreateUserDto) {
     return this.userRepository.createUser(createUserDto);
   }
+  getUser() {
+    return this.userRepository.getUser();
+  }
 }

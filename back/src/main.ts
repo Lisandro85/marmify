@@ -18,7 +18,7 @@ async function bootstrap() {
     );
     await app.listen(PORT);
     if (app) {
-      console.log(`Server listen on Port:${PORT}`);
+      console.log(`Server listen on Port:${PORT} ✅`);
     }
   } catch (error) {
     console.log('Error to Up Server:', error);

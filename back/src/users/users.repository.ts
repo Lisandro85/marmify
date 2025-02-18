@@ -12,7 +12,9 @@ export class UserRepository {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async createUser(createUserDto: CreateUserDto) {
+  async createUser(
+    createUserDto: CreateUserDto,
+  ): Promise<{ message: string; userNopsw: Partial<User> }> {
     const user = await this.userRepository.findOneBy({
       email: createUserDto.email,
     });
@@ -25,6 +27,17 @@ export class UserRepository {
       password: hashPsw,
     });
     await this.userRepository.save(newUser);
-    return { message: 'Utente creato con essito', newUser };
+    const { password, ...userNopsw } = newUser;
+    return { message: 'Utente creato con essito', userNopsw };
+  }
+
+  async getUser(): Promise<{ message: string; users: User[] }> {
+    const users = await this.userRepository.find({
+      select: ['id', 'name', 'lastname', 'isActive', 'role'],
+    });
+    if (!users) {
+      throw new BadRequestException('Non esistono Utenti');
+    }
+    return { message: 'Lista di Utenti:', users };
   }
 }

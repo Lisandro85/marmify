@@ -2,11 +2,14 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-  "name": "alberto",
-  "lastname": "gonzalez",
-  "email": "alberto.gonzalez@example.com",
-  "birthdate": "12-03-1985",
+  "name": "Gabriel",
+  "lastname": "Dessena",
+  "email": "gabriel.dessena@example.com",
+  "birthdate": "08-07-1993",
   "password": "StrongP@ssw0rd!", 
   "isActive": true,
   "role": "admin"  
 }
+
+###
+GET http://localhost:3000/users
