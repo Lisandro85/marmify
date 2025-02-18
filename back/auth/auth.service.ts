@@ -23,7 +23,7 @@ export class AuthService {
     if (!validPsw) {
       throw new UnauthorizedException('Bad credentials');
     }
-    const payload = { email: user.email };
+    const payload = { email: user.email, role: user.role };
     const access_token = await this.jwtService.signAsync(payload);
 
     return { message: `Utente ${user.name} login with susses`, access_token };

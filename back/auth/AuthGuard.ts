@@ -19,17 +19,26 @@ export class AuthGuard implements CanActivate {
     if (!token) {
       throw new UnauthorizedException('No authorized');
     }
+
     try {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: jwtConstants.secret,
       });
 
+      if (payload.role !== 'admin') {
+        throw new UnauthorizedException('Sorry, The ADMIN can access only');
+      }
       request['user'] = payload;
-    } catch {
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
       throw new UnauthorizedException('No authorized');
     }
+
     return true;
   }
+
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
